@@ -15,11 +15,15 @@ for folder in [root,root/'docs']:
     page=(folder/'index.html').read_text(encoding='utf-8')
     assert '\u0646\u0648\u0627\u062a\u0643' not in page and '\u0646\u0648\u062a\u0643' not in page, 'Incorrect Arabic brand spelling'
     rows=json.loads(re.search(r'const REELS = (\[.*?\]);\n',page,re.S).group(1))
-    assert len(rows)==32 and len({r['id'] for r in rows})==32
-    assert len({r['brand'] for r in rows})==8
+    assert len(rows)==36 and len({r['id'] for r in rows})==36
+    assert len({r['brand'] for r in rows})==10
     assert page.count('class="recommended-card"')==4 and page.count('class="trial-card"')==4
     for code in ['DerOfNgT0XQ','DesFblBz1l8','DeXX4uujSFa','DeVe3n-JbbN']:assert 'id="recommended-'+code+'"' in page
     for p in folder.glob('*.html'):
         text=p.read_text(encoding='utf-8')
         assert '\u0646\u0648\u0627\u062a\u0643' not in text and '\u0646\u0648\u062a\u0643' not in text
-print('PASS: 32 videos, 8 brands, original three plus fourth recommendation, four experiments and Arabic spelling.')
+print('PASS: 36 videos, 10 brands, original three plus fourth recommendation, four experiments and Arabic spelling.')
+
+
+BASELINE_IDS = ['DYpJ4S-NRc2', 'Dd1rDpiN0-i', 'Dd8zh6bsZXR', 'DdO5Po0MQu7', 'Ddl3toUoLPp', 'DePff2jxou8', 'DePjXYAMPQQ', 'DeQVR8TJnlt', 'DeVe3n-JbbN', 'DeXCUp8v0Jj', 'DeXX4uujSFa', 'DeZ0AsrxDug', 'DeZOCeSs-AB', 'DeZjuhnMUJq', 'DecRj_SMkd2', 'Dee6fCdR52a', 'Dehi7Lusqum', 'Dek7tLhJpUt', 'DemE3GfzqrH', 'Demdhx0tIF-', 'Demlf58iAxl', 'DemzzUTiKev', 'DeoO0TSTFc4', 'DepBdpFxrbC', 'Depg1RrqBd6', 'DerOfNgT0XQ', 'DesFblBz1l8', 'DeuJHsLIalo', 'Dev9qPAsY5c', 'DevVxCkHLEE', 'DewYDguTFy1', 'Dewkn8bDNfN']
+assert set(BASELINE_IDS)<=set(r["id"] for r in rows), "Previously published references were removed"
