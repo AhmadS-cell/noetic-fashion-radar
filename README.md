@@ -4,7 +4,7 @@ Public research snapshot, 21 October 2026.
 
 Live report: https://ahmads-cell.github.io/noetic-fashion-radar/#recommended
 
-24 Instagram fashion references, a dedicated Top 3 Recommended section and three proposed Noetic filming experiments. Figures are dated snapshots, not proof of sales, organic distribution or guaranteed virality.
+32 Instagram fashion references across eight brands, four Recommended references (the original three plus one new selection) and four proposed Noetic filming experiments. Figures are dated snapshots, not proof of sales, organic distribution or guaranteed virality.
 
 The public package contains self-contained HTML with inline poster images. Videos are played through Instagram embeds or opened at the original source; media rights remain with their owners. No locally downloaded MP4s, private customer records, credentials, Sites configuration or internal project files are published here.
 
