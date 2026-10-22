@@ -31,6 +31,7 @@ for folder in [root,root/'docs']:
         assert '\u0646\u0648\u0627\u062a\u0643' not in text and '\u0646\u0648\u062a\u0643' not in text
     assert not re.search(r'https://[^" ]*(?:tiktokcdn|fbcdn|cdninstagram)',page), 'Transient CDN URL published'
     assert all('id="'+field+'"' in page for field in ['platform','collection','review','market'])
+    assert '@media(max-width:1199px){.video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}' in page, 'Tablet library must have two columns'
 print('PASS: 157 references, 88 saved + 69 discoveries, original four recommendations + four candidates, four experiments and Arabic spelling.')
 
 
