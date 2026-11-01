@@ -1,10 +1,10 @@
 # Noetic Fashion Creative Radar
 
-Public research snapshot, updated 26 October 2026. Original Noetic design and research retained.
+Public research snapshot, updated 1 November 2026. Original Noetic design and research retained.
 
 Live report: https://ahmads-cell.github.io/noetic-fashion-radar/#recommended
 
-167 Instagram and TikTok references: all 157 saved references retained, plus 10 discoveries. Recommendations, filming experiments, approved design and default order are preserved. Visible counters refresh with dated observations while historical analyses and metric history remain. Missing or reduced unverified counts are flagged. Figures do not prove sales, organic distribution or guaranteed virality.
+174 Instagram and TikTok references: all 167 saved references retained, plus 7 discoveries. Recommendations, filming experiments, approved design and default order are preserved. Visible counters refresh with dated observations while historical analyses and metric history remain. Missing or reduced unverified counts are flagged. Figures do not prove sales, organic distribution or guaranteed virality.
 
 The public package contains self-contained HTML with inline poster images or clearly labeled preview placeholders. Videos use official Instagram/TikTok embeds or original source links; TikTok playback may remain unavailable on networks that block it. Media rights remain with their owners. No locally downloaded MP4s, temporary signed media URLs, private customer records, credentials, Sites configuration or internal project files are published here.
 
