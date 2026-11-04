@@ -5,8 +5,9 @@ BASELINE_IDS = ['DercOXfKWDG', 'DexXn0rRDsP', '7696965067044080928', 'DegX2mTpV7
 BASELINE_RECOMMENDATIONS = ['DerOfNgT0XQ', 'DesFblBz1l8', 'DeXX4uujSFa', 'DeVe3n-JbbN', 'DercOXfKWDG', '7696965067044080928', 'DegX2mTpV79', 'DexXn0rRDsP', '7700276024960879879', 'De7FDRtI5rt']
 BASELINE_TRIAL_HASHES = ['62e302a53ef4319897145a9b70d9e7156e41750e07bcee08aad1e8f7bd8fd10a', '48eef57ea333540b90827be3c8568eb89527f2cc6a8bf6477a93382faa5caeec', '037145a9275b6749f672b5f292f38ce371799a4634fc9dd937baea64515d3506', 'd656ce950858e36bb423dabd786619a256e11158ecc20520365d8dd5d0d22692']
 APPROVED_CSS_HASH = '9be76a5fdc645eb0e9324ea6886c65b3c97749b6ed4e30fc0750f8687e96df3b'
-BASELINE_IMAGE_IDS = ['meta_ad_library-2198119790809266', 'meta_ad_library-1373973484885002', 'meta_ad_library-874133775256725', 'meta_ad_library-1111309974846623', 'instagram-DfC65GTDRGC', 'instagram-DfPywzZDYlw', 'instagram-DfOuay4kxRm', 'instagram-DfKNAE_Ak06', 'instagram-DfJdsCgAVBf', 'instagram-DfC3mrHN8Pl', 'instagram-De9sBiZAo1H', 'meta_ad_library-1111385137924234']
+BASELINE_IMAGE_IDS = ['meta_ad_library-2198119790809266', 'meta_ad_library-1373973484885002', 'meta_ad_library-874133775256725', 'meta_ad_library-1111309974846623', 'instagram-DfC65GTDRGC', 'instagram-DfPywzZDYlw', 'instagram-DfOuay4kxRm', 'instagram-DfKNAE_Ak06', 'instagram-DfJdsCgAVBf', 'instagram-DfC3mrHN8Pl', 'instagram-De9sBiZAo1H', 'meta_ad_library-1111385137924234', 'instagram-DfPbxCVgtux']
 APPROVED_IMAGE_FUNNEL_CSS_HASH = '8f5988a1af021d91ea45f0ef357a9ce68bc78fe9cbf747211c62173ea66c42ed'
+APPROVED_QUALITY_CSS_HASH = 'bca801b00d6e00de6414fdef8051dc3fabc536a116f7bd6e6c7f4de01e747ad5'
 pages=list(root.rglob('*.html'))
 assert pages,'No served HTML'
 for path in pages:
@@ -61,5 +62,15 @@ for folder in [root,root/'docs']:
         a=x.get('funnel')
         if a:assert a.get('stage') in ['TOF','MOF','BOF'] and a.get('confidence') in ['high','medium'] and all(a.get(k) for k in ['basis','reason_ar','evidence','reviewed_at']),'Unsupported video funnel flag'
     assert '#images .image-grid{grid-template-columns:repeat(2,minmax(0,1fr))}' in page
+    qstyle=re.search(r'<style id="quality-styles">(.*?)</style>',page,re.S)
+    assert qstyle and hashlib.sha256(qstyle[1].encode()).hexdigest()==APPROVED_QUALITY_CSS_HASH,'Approved quality styling changed'
+    assert page.count('id="image-strong"')==1 and page.count('id="image-quality-summary"')==1
+    assert page.count('function radarQuality(q){')==1
+    assert all(x.get('quality_status') in [None,'strong_candidate'] for x in images),'Unsupported image winner claim'
+    for x in rows:
+        q=x.get('quality')
+        if q:
+            assert q['status']=='strong_candidate' and q['peer_count']>=5 and q['peer_median']>0 and q['multiple']>=2
+            assert all(q.get(k) for k in ['value_ar','evidence_ar','review_basis','observed_at','reviewed_at','limits_ar'])
 assert (root/'index.html').read_bytes()==(root/'docs'/'index.html').read_bytes(),'Published copies differ'
 print(f'PASS: {len(pages)} noindex routes, {len(rows)} retained/unique references, saved order/design/trials and current recommendation metrics.')
