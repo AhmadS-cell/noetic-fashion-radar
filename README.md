@@ -1,6 +1,6 @@
 # Noetic Fashion Creative Radar
 
-Public research snapshot, updated 1 November 2026. Original Noetic design and research retained.
+Public research snapshot, image/funnel update 4 November 2026; video counter snapshot 1 November 2026. Original Noetic design and research retained.
 
 Live report: https://ahmads-cell.github.io/noetic-fashion-radar/#recommended
 
@@ -11,3 +11,5 @@ The public package contains self-contained HTML with inline poster images or cle
 Every served HTML document retains robots noindex. Noindex is not access control or an absolute search-engine guarantee. It cannot control the GitHub UI of this public repository. Do not add a robots.txt Disallow rule that prevents crawlers from seeing the directive.
 
 Before publishing changes, run `python validate_noindex.py`. The GitHub Actions check validates every served HTML document on every source change.
+
+Image library: 12 reviewed references (5 public image ads and 7 image posts), 30 sampled image assets, premium first with Saudi and limited luxury comparison. The 174 videos, their counters, original analyses and default order remain. Evidence-backed creative-purpose labels appear on 9 image references and 9 videos; unknown or mixed intent has no badge. Labels do not establish actual targeting. Three active ad IDs have 28, 100 and 135 elapsed days since their start dates as of 4 November; this does not prove continuous delivery, unchanged dynamic imagery or profitable results. Comments are not verified purchase reviews. Missing or suspicious photo counters stay unavailable.

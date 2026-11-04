@@ -5,6 +5,8 @@ BASELINE_IDS = ['DercOXfKWDG', 'DexXn0rRDsP', '7696965067044080928', 'DegX2mTpV7
 BASELINE_RECOMMENDATIONS = ['DerOfNgT0XQ', 'DesFblBz1l8', 'DeXX4uujSFa', 'DeVe3n-JbbN', 'DercOXfKWDG', '7696965067044080928', 'DegX2mTpV79', 'DexXn0rRDsP', '7700276024960879879', 'De7FDRtI5rt']
 BASELINE_TRIAL_HASHES = ['62e302a53ef4319897145a9b70d9e7156e41750e07bcee08aad1e8f7bd8fd10a', '48eef57ea333540b90827be3c8568eb89527f2cc6a8bf6477a93382faa5caeec', '037145a9275b6749f672b5f292f38ce371799a4634fc9dd937baea64515d3506', 'd656ce950858e36bb423dabd786619a256e11158ecc20520365d8dd5d0d22692']
 APPROVED_CSS_HASH = '9be76a5fdc645eb0e9324ea6886c65b3c97749b6ed4e30fc0750f8687e96df3b'
+BASELINE_IMAGE_IDS = ['meta_ad_library-2198119790809266', 'meta_ad_library-1373973484885002', 'meta_ad_library-874133775256725', 'meta_ad_library-1111309974846623', 'instagram-DfC65GTDRGC', 'instagram-DfPywzZDYlw', 'instagram-DfOuay4kxRm', 'instagram-DfKNAE_Ak06', 'instagram-DfJdsCgAVBf', 'instagram-DfC3mrHN8Pl', 'instagram-De9sBiZAo1H', 'meta_ad_library-1111385137924234']
+APPROVED_IMAGE_FUNNEL_CSS_HASH = '8f5988a1af021d91ea45f0ef357a9ce68bc78fe9cbf747211c62173ea66c42ed'
 pages=list(root.rglob('*.html'))
 assert pages,'No served HTML'
 for path in pages:
@@ -39,5 +41,25 @@ for folder in [root,root/'docs']:
     assert not re.search(r'https://[^" ]*(?:tiktokcdn|fbcdn|cdninstagram)',page),'Temporary signed media URL published'
     assert '@media(max-width:1199px){.video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}' in page
     assert all('id="'+x+'"' in page for x in ['platform','collection','review','market'])
+    image_data=re.search(r'<script type="application/json" id="image-radar-data">(.*?)</script>',page,re.S)
+    assert image_data,'Image library lost'
+    images=json.loads(image_data[1]);image_ids=[x['key'] for x in images]
+    assert len(image_ids)==len(set(image_ids)) and image_ids[:len(BASELINE_IMAGE_IDS)]==BASELINE_IMAGE_IDS,'Saved images removed/reordered'
+    assert all(x['displayOrder']==i for i,x in enumerate(images)),'Image default order changed'
+    extra_css=re.search(r'<style id="image-funnel-styles">(.*?)</style>',page,re.S)
+    assert extra_css and hashlib.sha256(extra_css[1].encode()).hexdigest()==APPROVED_IMAGE_FUNNEL_CSS_HASH,'Approved image/funnel styling changed'
+    assert page.count('id="images"')==1 and page.count('id="image-viewer"')==1
+    assert page.count('id="image-radar-app"')==1 and 'function radarFunnel(a){' in page
+    for x in images:
+        assert x['kind'] in ['image_post','image_ad']
+        assert all(k not in x for k in ['views','shares','roas','sales','rating']),'Invented image performance field'
+        assert x.get('funnel_stage') in [None,'TOF','MOF','BOF'],'Unknown funnel badge'
+        markup=re.search(r'<article class="reel image-reference" id="image-'+re.escape(x['key'])+r'".*?</article>',page,re.S)
+        assert markup,'Missing image card'
+        if x.get('funnel_stage') is None:assert 'class="funnel-assessment"' not in markup[0],'Unknown funnel shown'
+    for x in rows:
+        a=x.get('funnel')
+        if a:assert a.get('stage') in ['TOF','MOF','BOF'] and a.get('confidence') in ['high','medium'] and all(a.get(k) for k in ['basis','reason_ar','evidence','reviewed_at']),'Unsupported video funnel flag'
+    assert '#images .image-grid{grid-template-columns:repeat(2,minmax(0,1fr))}' in page
 assert (root/'index.html').read_bytes()==(root/'docs'/'index.html').read_bytes(),'Published copies differ'
 print(f'PASS: {len(pages)} noindex routes, {len(rows)} retained/unique references, saved order/design/trials and current recommendation metrics.')
