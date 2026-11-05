@@ -86,3 +86,29 @@ for folder in [root,root/'docs']:
     assert '<option value="image_ad" selected>' in page,'Ads-first view lost'
 assert (root/'index.html').read_bytes()==(root/'docs'/'index.html').read_bytes(),'Published copies differ'
 print(f'PASS: {len(pages)} noindex routes, {len(rows)} retained/unique references, saved order/design/trials and current recommendation metrics.')
+
+# Original client concepts: immutable saved prefix; appends remain possible.
+ENGINE_IDS = ['noetic-print-reveal-v1', 'noetic-sleeve-detail-v1', 'noetic-clear-choice-v1']
+ENGINE_PUBLIC_HASHES = ['34bc8293fbd11fbdf3dae1a071cbf709807b3b0f4de5c81dc97b1f9c677ddfc5', 'd52412ce799bea995e1ae3ac68bd3c51e36e9dab4b2e4194c81f5452137b84b5', '5c8410b308d86e569690a4c288cce2ee9851c652f90523e1464a796220f23a61']
+for folder in [root,root/'docs']:
+    page=(folder/'index.html').read_text(encoding='utf-8')
+    assert page.count('id="our-creatives"')==1 and page.count('id="creative-engine-app"')==1
+    data=json.loads(re.search(r'<script type="application/json" id="creative-engine-data">(.*?)</script>',page,re.S)[1])
+    assert data['client_id']=='noetic'
+    concepts=data['concepts'];ids=[x['id'] for x in concepts]
+    assert len(ids)==len(set(ids)) and ids[:len(ENGINE_IDS)]==ENGINE_IDS,'Saved generated concepts removed or reordered'
+    digests=[hashlib.sha256(json.dumps(x,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest() for x in concepts]
+    assert digests[:len(ENGINE_PUBLIC_HASHES)]==ENGINE_PUBLIC_HASHES,'Saved concepts edited without explicit version review'
+    for c in concepts:
+        assert c['asset_origin']=='owned_generated' and c['review_status']=='PENDING APPROVAL' and c['test_status']=='UNTESTED'
+        assert not set(c).intersection({'views','comments','shares','roas','sales','viral_score'})
+        assert c['video'].startswith('data:video/mp4;base64,') and len(c['hooks'])>=2
+        assert c['funnel'] is None or (c['funnel']['stage'] in ['TOF','MOF','BOF'] and c['funnel']['reason_ar'])
+        assert 'id="creative-'+c['id']+'"' in page
+    assert 'grid-template-columns:repeat(4,minmax(0,1fr))' in page
+    assert '@media(max-width:1199px){#our-creatives .engine-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}' in page
+    section=re.search(r'<!-- balarab-creative-engine:start -->(.*?)<!-- balarab-creative-engine:end -->',page,re.S)[1]
+    assert 'asset_root' not in section and not re.search(r'(?:C:|D:)[/\\]',section)
+    assert section.count('data-engine-panel="image"')==len(concepts)
+    assert section.count('data-engine-panel="video"')==len(concepts)
+print(f'PASS: {len(concepts)} original review concepts, inline owned media, statuses, hooks, saved order and 4/2/2 layout.')
