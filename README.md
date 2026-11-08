@@ -32,3 +32,10 @@ Expanded print/dress research, 4 November: eight additional advertisers (Borgo d
 The existing 177 video references, 28 image references, ten recommendations and four earlier trial cards remain unchanged. The added `#our-creatives` area contains three original review concepts, each with a raw generated image, an 8.5-second silent still-camera motion preview, two proposed hooks, a source-linked rationale and an explicit funnel/test hypothesis. These are TESTING / PENDING APPROVAL, with no invented views, engagement, sales or winning status. Generated garment details can differ from the original; the cards disclose fidelity limits and link to the real products.
 
 The approved base design and default card order are retained. New media is owned/generated and embedded inline in the noindex HTML; competitor videos remain on official original players. No raw product exports, private reviews, prompts or local asset paths are published. The reusable Balarab creative-engine skill and full evidence remain in the owner's local workspace. This update does not activate ads or change repository visibility or schedules.
+
+
+## Six generated gathering directions — 8 November 2026
+
+Six original image-only drafts were appended after the three saved concepts in the existing #our-creatives area: hosting at home, a family visit, friends' coffee, morning coffee, a formal visit and an engagement guest. Each uses one adult model, a source-linked Noetic garment, two proposed hooks, context/fit rationale, an explicit TOF hypothesis and disclosed garment-fidelity limits. Every new card says AI Generated / created by us, PENDING APPROVAL and UNTESTED. These are raw images without burnt-in copy or logos; no video or performance result was invented.
+
+All external research, counters, existing creative cards/media, default order, CSS, 4/2/2 layout and noindex remain preserved. A real offline radar refresh retained the complete nine-concept block. The image-only button handler is null-safe; existing video previews remain playable. Native images, prompts, source receipts and private report stay outside the public package.

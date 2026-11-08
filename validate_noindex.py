@@ -88,8 +88,8 @@ assert (root/'index.html').read_bytes()==(root/'docs'/'index.html').read_bytes()
 print(f'PASS: {len(pages)} noindex routes, {len(rows)} retained/unique references, saved order/design/trials and current recommendation metrics.')
 
 # Original client concepts: immutable saved prefix; appends remain possible.
-ENGINE_IDS = ['noetic-print-reveal-v1', 'noetic-sleeve-detail-v1', 'noetic-clear-choice-v1']
-ENGINE_PUBLIC_HASHES = ['34bc8293fbd11fbdf3dae1a071cbf709807b3b0f4de5c81dc97b1f9c677ddfc5', 'd52412ce799bea995e1ae3ac68bd3c51e36e9dab4b2e4194c81f5452137b84b5', '5c8410b308d86e569690a4c288cce2ee9851c652f90523e1464a796220f23a61']
+ENGINE_IDS = ['noetic-print-reveal-v1', 'noetic-sleeve-detail-v1', 'noetic-clear-choice-v1', 'noetic-hosting-gathering-v1', 'noetic-family-visit-v1', 'noetic-friends-coffee-v1', 'noetic-morning-gathering-v1', 'noetic-formal-visit-v1', 'noetic-engagement-guest-v1']
+ENGINE_PUBLIC_HASHES = ['34bc8293fbd11fbdf3dae1a071cbf709807b3b0f4de5c81dc97b1f9c677ddfc5', 'd52412ce799bea995e1ae3ac68bd3c51e36e9dab4b2e4194c81f5452137b84b5', '5c8410b308d86e569690a4c288cce2ee9851c652f90523e1464a796220f23a61', '0a067da2ae22acb42d17bac1942086b0beea720e1153a27ddea92e4a042707a7', 'f73af77073eff9334abd0b5a5218f331cfe8c8435bb4474a8c15e621cac28271', '8e8c1917095c65b2c7870403fab6dbd65ac90de2ba73abfb5ca28cb0697bd5c7', 'f55a74aa7877c82d5f2b87fad89ea2d427b11dd6aef3be2f10298dbf4b93227a', 'a7f2c7e370814a31751c231c1d8ec92363cf32e8f9bb2d89ff5076d3b3c8b919', '9168dcd70766a4b372e7ea33414b9fcbed8a9720d57d9ac6273666762bd84b12']
 for folder in [root,root/'docs']:
     page=(folder/'index.html').read_text(encoding='utf-8')
     assert page.count('id="our-creatives"')==1 and page.count('id="creative-engine-app"')==1
@@ -102,7 +102,11 @@ for folder in [root,root/'docs']:
     for c in concepts:
         assert c['asset_origin']=='owned_generated' and c['review_status']=='PENDING APPROVAL' and c['test_status']=='UNTESTED'
         assert not set(c).intersection({'views','comments','shares','roas','sales','viral_score'})
-        assert c['video'].startswith('data:video/mp4;base64,') and len(c['hooks'])>=2
+        assert len(c['hooks'])>=2
+        if c.get('media_kind')=='image':
+            assert c.get('video') is None and c['asset_origin']=='owned_generated'
+        else:
+            assert c['video'].startswith('data:video/mp4;base64,')
         assert c['funnel'] is None or (c['funnel']['stage'] in ['TOF','MOF','BOF'] and c['funnel']['reason_ar'])
         assert 'id="creative-'+c['id']+'"' in page
     assert 'grid-template-columns:repeat(4,minmax(0,1fr))' in page
@@ -110,5 +114,5 @@ for folder in [root,root/'docs']:
     section=re.search(r'<!-- balarab-creative-engine:start -->(.*?)<!-- balarab-creative-engine:end -->',page,re.S)[1]
     assert 'asset_root' not in section and not re.search(r'(?:C:|D:)[/\\]',section)
     assert section.count('data-engine-panel="image"')==len(concepts)
-    assert section.count('data-engine-panel="video"')==len(concepts)
+    assert section.count('data-engine-panel="video"')==sum(isinstance(c.get('video'),str) for c in concepts)
 print(f'PASS: {len(concepts)} original review concepts, inline owned media, statuses, hooks, saved order and 4/2/2 layout.')
