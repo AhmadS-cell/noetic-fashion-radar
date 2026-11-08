@@ -1,6 +1,12 @@
 # Noetic Fashion Creative Radar
 
-Public research snapshot, image/funnel update 4 November 2026; video counter snapshot 1 November 2026. Original Noetic design and research retained.
+Current verified weekly update: **8 November 2026**. The board retains 177 videos, all prior image references, ten recommendations, four filming trials and three original generated concepts. Two verified public image ads were appended: CAMILLA (a limited luxury comparison in a Gulf reception setting) and FARM Rio (a printed dress with an official Saudi storefront destination). The image library now contains 30 references: 22 image ads and 8 posts.
+
+One public detail attempt was made for each of the 205 saved IDs: 142 returned usable responses and 63 were unavailable. Counters changed on 114 references. Missing, masked, zero-suspect and lower readings did not replace saved counters or their observation dates. Six current catalog covers differed from the saved preview; dated notes preserve that distinction. Public EU reach remains separate from video views. This bounded sample used 24 shared discovery/detail calls; no new video was promoted without sufficient direct-fit visual evidence.
+
+Approved CSS, historical analyses, saved order, filters, gallery, 4/2/2 layout and noindex were checked. Private metric histories and raw evidence are kept outside this repository. Historical research notes below describe their original dated snapshots.
+
+
 
 Live report: https://ahmads-cell.github.io/noetic-fashion-radar/#recommended
 
